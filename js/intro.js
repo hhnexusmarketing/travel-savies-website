@@ -20,8 +20,12 @@
 
   video.playsInline = true;
   video.muted = true;
+  video.defaultMuted = true;
+  video.controls = false;
+  video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
   video.setAttribute("webkit-playsinline", "");
+  video.setAttribute("x5-playsinline", "");
 
   video.addEventListener("ended", finish);
   video.addEventListener("error", finish);
@@ -58,7 +62,7 @@
   window.setTimeout(function () {
     window.clearInterval(wait);
     if (!finished && video.paused && video.readyState < 2) finish();
-  }, 5000);
+  }, 12000);
 
   start();
 })();
