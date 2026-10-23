@@ -82,21 +82,37 @@ if (year) year.textContent = String(new Date().getFullYear());
       if (introVideo) introVideo.pause();
     }
 
+    var warm = document.createElement("link");
+    warm.rel = "prefetch";
+    warm.href = dest;
+    document.head.appendChild(warm);
+
     function go() {
       if (gone) return;
       gone = true;
+      try { video.pause(); } catch (error) {}
+      if (bg) {
+        try { bg.pause(); } catch (error) {}
+      }
       location.href = dest;
+    }
+
+    function almostDone() {
+      var duration = video.duration;
+      return duration > 1 && video.currentTime >= duration - 0.05;
     }
 
     video.addEventListener("ended", go);
     video.addEventListener("error", go);
+    video.addEventListener("timeupdate", function () {
+      if (almostDone()) {
+        go();
+        return;
+      }
+      if (bg && Math.abs(bg.currentTime - video.currentTime) > 0.35) bg.currentTime = video.currentTime;
+    });
 
-    if (bg) {
-      bg.play();
-      video.addEventListener("timeupdate", function () {
-        if (Math.abs(bg.currentTime - video.currentTime) > 0.35) bg.currentTime = video.currentTime;
-      });
-    }
+    if (bg) bg.play();
 
     var started = video.play();
     if (started && started.catch) {
@@ -124,7 +140,7 @@ if (year) year.textContent = String(new Date().getFullYear());
         return;
       }
       still += 1;
-      if (still >= 20) go();
+      if (almostDone() || still >= 20) go();
     }, 1000);
     window.setTimeout(go, 40000);
   }, true);
