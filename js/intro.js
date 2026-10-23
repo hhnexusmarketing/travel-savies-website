@@ -28,7 +28,8 @@
   video.setAttribute("x5-playsinline", "");
 
   video.addEventListener("ended", finish);
-  video.addEventListener("error", finish);
+  video.addEventListener("canplay", start);
+  video.addEventListener("loadeddata", start);
 
   function start() {
     if (finished || !video.paused) return;
@@ -40,9 +41,7 @@
         intro.addEventListener("pointerdown", function () {
           video.play().catch(function () {});
         }, { once: true });
-        return;
       }
-      finish();
     });
   }
 
