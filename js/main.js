@@ -43,35 +43,38 @@ if (year) year.textContent = String(new Date().getFullYear());
     gate.setAttribute("role", "dialog");
     gate.setAttribute("aria-label", "Lahore city tour video");
     var src = "images/lahore-tour.mp4?v=1";
-    var wide = window.matchMedia("(min-aspect-ratio: 3/4)").matches;
+    var wide = window.matchMedia("(min-width: 1000px)").matches;
     var bg = null;
+
+    function prepareVideo(el, muted) {
+      el.setAttribute("playsinline", "");
+      el.setAttribute("webkit-playsinline", "");
+      el.setAttribute("x5-playsinline", "");
+      el.playsInline = true;
+      el.autoplay = true;
+      el.preload = "auto";
+      el.controls = false;
+      if (muted) {
+        el.muted = true;
+        el.defaultMuted = true;
+        el.setAttribute("muted", "");
+      }
+      el.src = src;
+    }
+
     if (wide) {
       gate.classList.add("tour-gate-wide");
       bg = document.createElement("video");
       bg.className = "tour-gate-bg";
-      bg.src = src;
-      bg.muted = true;
-      bg.defaultMuted = true;
-      bg.autoplay = true;
-      bg.playsInline = true;
-      bg.setAttribute("playsinline", "");
-      bg.setAttribute("webkit-playsinline", "");
       bg.setAttribute("aria-hidden", "true");
-      bg.preload = "auto";
+      prepareVideo(bg, true);
       gate.appendChild(bg);
     }
     var video = document.createElement("video");
     video.className = "tour-gate-main";
-    video.src = src;
-    video.controls = false;
-    video.autoplay = true;
-    video.playsInline = true;
-    video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "");
-    video.setAttribute("x5-playsinline", "");
-    video.preload = "auto";
     video.width = 720;
     video.height = 1280;
+    prepareVideo(video, false);
     gate.appendChild(video);
     document.body.appendChild(gate);
     document.documentElement.classList.add("tour-gate-on");
@@ -82,10 +85,8 @@ if (year) year.textContent = String(new Date().getFullYear());
       if (introVideo) introVideo.pause();
     }
 
-    var warm = document.createElement("link");
-    warm.rel = "prefetch";
-    warm.href = dest;
-    document.head.appendChild(warm);
+    var sawPlayback = false;
+    var replayed = false;
 
     function go() {
       if (gone) return;
@@ -99,17 +100,44 @@ if (year) year.textContent = String(new Date().getFullYear());
 
     function almostDone() {
       var duration = video.duration;
-      return duration > 1 && video.currentTime >= duration - 0.05;
+      return sawPlayback && duration > 1 && video.currentTime >= duration - 0.05;
     }
 
-    video.addEventListener("ended", go);
-    video.addEventListener("error", go);
+    video.addEventListener("playing", function () {
+      if (document.head.querySelector("[data-tour-warm]")) return;
+      var warm = document.createElement("link");
+      warm.rel = "prefetch";
+      warm.href = dest;
+      warm.setAttribute("data-tour-warm", "");
+      document.head.appendChild(warm);
+    });
     video.addEventListener("timeupdate", function () {
+      if (video.currentTime >= 0.35) sawPlayback = true;
+      if (!sawPlayback) return;
       if (almostDone()) {
         go();
         return;
       }
       if (bg && Math.abs(bg.currentTime - video.currentTime) > 0.35) bg.currentTime = video.currentTime;
+    });
+    video.addEventListener("ended", function () {
+      if (sawPlayback || video.currentTime > 1) {
+        go();
+        return;
+      }
+      if (!replayed) {
+        replayed = true;
+        try {
+          video.currentTime = 0;
+          video.play();
+        } catch (error) {}
+      }
+    });
+    video.addEventListener("error", function () {
+      window.setTimeout(function () {
+        if (gone || sawPlayback || !video.paused) return;
+        go();
+      }, 1500);
     });
 
     if (bg) bg.play();
@@ -133,14 +161,18 @@ if (year) year.textContent = String(new Date().getFullYear());
     var last = 0;
     var still = 0;
     window.setInterval(function () {
-      if (gone || video.ended) return;
+      if (gone) return;
+      if (video.ended) {
+        if (sawPlayback || video.currentTime > 1) go();
+        return;
+      }
       if (video.currentTime > last + 0.05) {
         last = video.currentTime;
         still = 0;
         return;
       }
       still += 1;
-      if (almostDone() || still >= 20) go();
+      if (almostDone() || (sawPlayback && still >= 8) || still >= 20) go();
     }, 1000);
     window.setTimeout(go, 40000);
   }, true);
