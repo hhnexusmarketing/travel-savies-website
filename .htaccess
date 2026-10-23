@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.travelsavies\.com$ [NC]
+RewriteRule ^ https://travelsavies.com%{REQUEST_URI} [R=301,L]
