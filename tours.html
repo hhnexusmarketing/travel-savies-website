@@ -48,10 +48,11 @@
     ]
   }
   </script>
-  <link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap"></noscript>
   <link rel="stylesheet" href="css/styles.css?v=9">
 </head>
 <body>
@@ -62,13 +63,13 @@
       var seen = false;
       try { seen = sessionStorage.getItem("ts-intro") === "1"; } catch (error) {}
       var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduce || (type !== "reload" && seen) || type === "back_forward") return;
+      if (reduce || seen || type === "back_forward") return;
       try { sessionStorage.setItem("ts-intro", "1"); } catch (error) {}
       document.documentElement.classList.add("intro-on");
       var intro = document.createElement("div");
       intro.id = "intro";
       intro.setAttribute("role", "presentation");
-      intro.innerHTML = '<video width="1280" height="720" poster="images/intro-poster.jpg" autoplay muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="auto" aria-hidden="true"><source src="images/intro.mp4" type="video/mp4"></video>';
+      intro.innerHTML = '<video width="854" height="480" poster="images/intro-poster.jpg?v=2" autoplay muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="metadata" aria-hidden="true"><source src="images/intro.mp4?v=2" type="video/mp4"></video>';
       document.body.prepend(intro);
       window.setTimeout(function () {
         var node = document.getElementById("intro");
@@ -82,7 +83,7 @@
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="index.html">
-        <img class="mark" src="images/logo.png" alt="">
+        <img class="mark" src="images/logo.png?v=2" alt="" width="259" height="128" decoding="async">
         <div class="brand-name">Travel Savies<span>Your journey, our priority</span></div>
       </a>
       <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button>
@@ -127,7 +128,7 @@
     <section class="section" style="padding-top: 0;">
       <div class="wrap">
         <article class="tour-block" id="androon">
-          <img src="images/androon.jpg" alt="Androon Lahore sightseeing and historical exploration poster">
+          <img src="images/androon.jpg?v=2" alt="Androon Lahore sightseeing and historical exploration poster" width="800" height="800" loading="lazy" decoding="async">
           <div>
             <p class="eyebrow">Androon Lahore</p>
             <h2>Sightseeing and historical exploration.</h2>
@@ -144,7 +145,7 @@
         </article>
 
         <article class="tour-block" id="gulberg">
-          <img src="images/gulberg.jpg" alt="Gulberg Lahore sightseeing and long drive poster">
+          <img src="images/gulberg.jpg?v=2" alt="Gulberg Lahore sightseeing and long drive poster" width="800" height="800" loading="lazy" decoding="async">
           <div>
             <p class="eyebrow">Gulberg, Lahore</p>
             <h2>Sightseeing and a long drive.</h2>
@@ -160,7 +161,7 @@
         </article>
 
         <article class="tour-block" id="bahria">
-          <img src="images/bahria.jpg" alt="Bahria Town Lahore sightseeing and modern city view poster">
+          <img src="images/bahria.jpg?v=2" alt="Bahria Town Lahore sightseeing and modern city view poster" width="800" height="800" loading="lazy" decoding="async">
           <div>
             <p class="eyebrow">Bahria Town</p>
             <h2>A modern city view.</h2>
@@ -176,7 +177,7 @@
         </article>
 
         <article class="tour-block" id="cantt">
-          <img src="images/cantt.jpg" alt="Cantt Lahore sightseeing and long drive poster">
+          <img src="images/cantt.jpg?v=2" alt="Cantt Lahore sightseeing and long drive poster" width="800" height="800" loading="lazy" decoding="async">
           <div>
             <p class="eyebrow">Cantt Lahore</p>
             <h2>Sightseeing and a long drive.</h2>
@@ -217,8 +218,8 @@
     <div class="wrap legal">© <span data-year>2026</span> Travel Savies. City-tour rates are per day and do not include fuel.</div>
   </footer>
   <a class="wa" href="contact.html" target="_blank" rel="noopener" aria-label="WhatsApp Travel Savies"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10 10 0 0 0 4.65 1.18h.01c5.46 0 9.89-4.4 9.89-9.83C21.94 6.4 17.5 2 12.04 2zm5.76 14.15c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.81-.11-.42-.14-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.16-1.54-1.16-2.94s.73-2.08 1-2.37c.24-.27.64-.4 1.02-.4.12 0 .23 0 .33.01.3.01.44.03.64.49.24.57.82 1.98.89 2.12.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.54.16.27.71 1.16 1.52 1.88 1.05.93 1.93 1.22 2.2 1.36.28.14.44.12.6-.07.16-.19.69-.8.88-1.08.19-.27.37-.22.62-.13.26.09 1.63.77 1.91.91.28.14.46.21.53.32.07.12.07.68-.17 1.36z"/></svg></a>
-  <script src="js/intro.js?v=5"></script>
-  <script src="js/main.js"></script>
-  <script src="js/chat.js?v=5"></script>
+  <script src="js/intro.js?v=6" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/chat.js?v=5" defer></script>
 </body>
 </html>

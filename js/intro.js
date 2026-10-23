@@ -12,6 +12,13 @@
       sessionStorage.setItem("ts-intro", "1");
     } catch (error) {}
     document.documentElement.classList.remove("intro-on");
+    if (video) {
+      video.pause();
+      video.removeAttribute("src");
+      var source = video.querySelector("source");
+      if (source) source.removeAttribute("src");
+      video.load();
+    }
     if (!intro.parentNode) return;
     intro.classList.add("intro-out");
     window.setTimeout(function () {
