@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Transport with Driver | Travel Savies</title>
+  <meta name="description" content="Travel Savies offers cars with driver for city rides, city-to-city travel, university pick-up, weddings, and Lahore sightseeing.">
+  <link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=4">
+</head>
+<body>
+  <script>
+    (function () {
+      var nav = performance.getEntriesByType("navigation")[0];
+      var type = nav ? nav.type : "navigate";
+      var seen = false;
+      try { seen = sessionStorage.getItem("ts-intro") === "1"; } catch (error) {}
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || (type !== "reload" && seen) || type === "back_forward") return;
+      try { sessionStorage.setItem("ts-intro", "1"); } catch (error) {}
+      document.documentElement.classList.add("intro-on");
+      var intro = document.createElement("div");
+      intro.id = "intro";
+      intro.setAttribute("role", "presentation");
+      intro.innerHTML = '<video poster="images/intro-poster.jpg" autoplay muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-hidden="true"><source src="images/intro.mp4" type="video/mp4"></video>';
+      document.body.prepend(intro);
+    })();
+  </script>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="images/logo.png" alt="">
+        <div class="brand-name">Travel Savies<span>Your journey, our priority</span></div>
+      </a>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+      <nav class="nav" id="nav">
+        <a href="index.html">Home</a>
+        <a href="umrah.html">Umrah</a>
+        <a href="visa.html">Visit Visa</a>
+        <a href="tours.html">City Tours</a>
+        <a class="active" href="transport.html">Transport</a>
+        <a class="nav-cta" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="wrap page-hero">
+      <p class="eyebrow">More than a ride. A better travel experience.</p>
+      <h1>Comfortable journeys, with a professional driver.</h1>
+      <p class="lede">Travel Savies provides reliable transportation services designed around your comfort, convenience, and peace of mind. Whether you are travelling across the city, heading to another destination, attending a special event, or exploring Lahore, we aim to make every journey comfortable, convenient, and stress-free.</p>
+    </section>
+
+    <section class="section" style="padding-top: 24px;">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Our services.</h2>
+          <p>Book with Travel Savies and travel with confidence.</p>
+        </div>
+        <div class="service-list">
+          <article>
+            <span class="num">01</span>
+            <div>
+              <h3>Rent a car with driver</h3>
+              <p>A clean car and a professional driver for the hours you need.</p>
+            </div>
+          </article>
+          <article>
+            <span class="num">02</span>
+            <div>
+              <h3>City rides & city-to-city travel</h3>
+              <p>Across the city, or onward to another destination, with clear booking terms.</p>
+            </div>
+          </article>
+          <article>
+            <span class="num">03</span>
+            <div>
+              <h3>University pick-up & drop-off</h3>
+              <p>Timely student runs, with pick-up aimed 10 minutes early.</p>
+            </div>
+          </article>
+          <article>
+            <span class="num">04</span>
+            <div>
+              <h3>Wedding & event car service</h3>
+              <p>A calmer way to arrive for the occasions that matter.</p>
+            </div>
+          </article>
+          <article>
+            <span class="num">05</span>
+            <div>
+              <h3>Domestic tourism & Lahore sightseeing</h3>
+              <p>See Androon, Gulberg, Bahria Town, or Cantt with a driver. <a href="tours.html">View city tours and day rates</a>.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 10px;">
+      <div class="wrap">
+        <img class="banner" src="images/tour-and-car.jpg" alt="Travel Savies tour, visa, and rent a car. Comfort, safety, and affordable day rates.">
+        <div class="section-head" style="margin-top: 32px;">
+          <h2>City tour cars, per day.</h2>
+          <p>The same four cars for Androon, Gulberg, Bahria Town, and Cantt. Fuel is not included.</p>
+        </div>
+        <div class="rates">
+          <article class="rate"><span>Suzuki Alto</span><strong>PKR 4,000</strong><span>per day</span></article>
+          <article class="rate"><span>Honda City</span><strong>PKR 6,000</strong><span>per day</span></article>
+          <article class="rate"><span>Toyota Yaris</span><strong>PKR 6,000</strong><span>per day</span></article>
+          <article class="rate"><span>MG HS</span><strong>PKR 10,000</strong><span>per day</span></article>
+        </div>
+        <p class="note">Without fuel. An experienced driver comes with the car.</p>
+        <div class="tour-grid">
+          <a class="tour-card" href="tours.html#androon"><img src="images/androon.jpg" alt="Androon Lahore city view tour"><div><h3>Androon Lahore</h3><p>Fort, mosques, Minar-e-Pakistan, Shalimar Gardens.</p></div></a>
+          <a class="tour-card" href="tours.html#gulberg"><img src="images/gulberg.jpg" alt="Gulberg Lahore sightseeing and long drive"><div><h3>Gulberg</h3><p>Liberty, food street, cinema, and Packages Mall.</p></div></a>
+          <a class="tour-card" href="tours.html#bahria"><img src="images/bahria.jpg" alt="Bahria Town Lahore city view tour"><div><h3>Bahria Town</h3><p>Landmarks, Grand Jamia Mosque, dining, and parks.</p></div></a>
+          <a class="tour-card" href="tours.html#cantt"><img src="images/cantt.jpg" alt="Cantt Lahore sightseeing and long drive"><div><h3>Cantt</h3><p>Famous places, restaurants, cinema, and a mall.</p></div></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="wrap section split">
+        <div>
+          <p class="eyebrow">Why choose Travel Savies</p>
+          <h2>Terms you can understand before you sit down.</h2>
+        </div>
+        <ul class="checklist">
+          <li><span class="num">01</span><span>Clean cars and professional drivers.</span></li>
+          <li><span class="num">02</span><span>Timely pick-up — we aim to arrive 10 minutes early.</span></li>
+          <li><span class="num">03</span><span>No extra waiting charges.</span></li>
+          <li><span class="num">04</span><span>Up to 2 km extra drop-off at no additional charge.</span></li>
+          <li><span class="num">05</span><span>Comfortable journeys and clear booking terms.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow">Book a ride</p>
+          <h2>Travel smart. Travel comfortably.</h2>
+          <p class="lede">Tell us the pickup point, the time, and where you are going. We will confirm the car and the terms before you travel.</p>
+        </div>
+        <div class="panel">
+          <div class="hero-actions">
+            <a class="btn btn-gold" href="contact.html">Request a car</a>
+            <a class="btn btn-ghost" href="https://wa.me/923154057253" target="_blank" rel="noopener">WhatsApp booking</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <strong>Travel Savies</strong>
+        <p>Travel smart. Travel comfortably. Travel with confidence.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="umrah.html">Umrah</a>
+        <a href="visa.html">Visit visa</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <a href="tel:+923248477095">0324 8477095</a><br>
+        <a href="tel:+923154057253">0315 4057253</a>
+        <p>Plaza No 80, Block Broadway, Paragon</p>
+      </div>
+    </div>
+    <div class="wrap legal">© <span data-year>2026</span> Travel Savies. Extra drop-off of up to 2 km is included. Waiting charges are not added.</div>
+  </footer>
+  <a class="wa" href="https://wa.me/923154057253" target="_blank" rel="noopener" aria-label="WhatsApp Travel Savies"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10 10 0 0 0 4.65 1.18h.01c5.46 0 9.89-4.4 9.89-9.83C21.94 6.4 17.5 2 12.04 2zm5.76 14.15c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.81-.11-.42-.14-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.16-1.54-1.16-2.94s.73-2.08 1-2.37c.24-.27.64-.4 1.02-.4.12 0 .23 0 .33.01.3.01.44.03.64.49.24.57.82 1.98.89 2.12.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.54.16.27.71 1.16 1.52 1.88 1.05.93 1.93 1.22 2.2 1.36.28.14.44.12.6-.07.16-.19.69-.8.88-1.08.19-.27.37-.22.62-.13.26.09 1.63.77 1.91.91.28.14.46.21.53.32.07.12.07.68-.17 1.36z"/></svg></a>
+  <script src="js/intro.js?v=2"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chat.js?v=3"></script>
+</body>
+</html>

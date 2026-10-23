@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact Travel Savies</title>
+  <meta name="description" content="Message Travel Savies. The chat collects your trip details and sends them on WhatsApp.">
+  <link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=4">
+</head>
+<body>
+  <script>
+    (function () {
+      var nav = performance.getEntriesByType("navigation")[0];
+      var type = nav ? nav.type : "navigate";
+      var seen = false;
+      try { seen = sessionStorage.getItem("ts-intro") === "1"; } catch (error) {}
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || (type !== "reload" && seen) || type === "back_forward") return;
+      try { sessionStorage.setItem("ts-intro", "1"); } catch (error) {}
+      document.documentElement.classList.add("intro-on");
+      var intro = document.createElement("div");
+      intro.id = "intro";
+      intro.setAttribute("role", "presentation");
+      intro.innerHTML = '<video poster="images/intro-poster.jpg" autoplay muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-hidden="true"><source src="images/intro.mp4" type="video/mp4"></video>';
+      document.body.prepend(intro);
+    })();
+  </script>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="images/logo.png" alt="">
+        <div class="brand-name">Travel Savies<span>Your journey, our priority</span></div>
+      </a>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+      <nav class="nav" id="nav">
+        <a href="index.html">Home</a>
+        <a href="umrah.html">Umrah</a>
+        <a href="visa.html">Visit Visa</a>
+        <a href="tours.html">City Tours</a>
+        <a href="transport.html">Transport</a>
+        <a class="nav-cta active" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="wrap page-hero">
+      <p class="eyebrow">Contact</p>
+      <h1>Talk to Travel Savies.</h1>
+      <p class="lede">Answer a few questions in the chat. When you send, the full message opens on WhatsApp.</p>
+      <div class="contact-line">
+        <a href="tel:+923248477095">0324 8477095</a>
+        <a href="tel:+923154057253">0315 4057253</a>
+        <span>Plaza No 80, Block Broadway, Paragon</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <strong>Travel Savies</strong>
+        <p>Your journey. Our expertise.</p>
+      </div>
+      <div class="footer-links">
+        <a href="umrah.html">Umrah</a>
+        <a href="visa.html">Visit visa</a>
+        <a href="transport.html">Transport</a>
+        <a href="index.html">Home</a>
+      </div>
+      <div>
+        <a href="tel:+923248477095">0324 8477095</a><br>
+        <a href="tel:+923154057253">0315 4057253</a>
+        <p>Plaza No 80, Block Broadway, Paragon</p>
+      </div>
+    </div>
+    <div class="wrap legal">© <span data-year>2026</span> Travel Savies.</div>
+  </footer>
+  <script src="js/intro.js?v=2"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chat.js?v=3"></script>
+</body>
+</html>
