@@ -193,10 +193,29 @@ if (log && form && input && serviceSelect && choices) {
 
   ask("Assalam o Alaikum. This is Travel Savies. What is your name?", "name", "Your name");
 
+  function fitChat() {
+    if (!overlay.classList.contains("open") || !window.visualViewport) return;
+    if (window.innerWidth > 640) {
+      overlay.style.height = "";
+      overlay.style.top = "";
+      return;
+    }
+    var box = window.visualViewport;
+    if (!box.height || box.height < 120) return;
+    if (window.innerHeight - box.height < 80) {
+      overlay.style.height = "";
+      overlay.style.top = "";
+      return;
+    }
+    overlay.style.height = box.height + "px";
+    overlay.style.top = (box.offsetTop || 0) + "px";
+  }
+
   function openChat() {
     overlay.hidden = false;
     overlay.classList.add("open");
     document.body.classList.add("chat-open");
+    fitChat();
     const menu = document.querySelector(".nav");
     const menuBtn = document.querySelector(".menu-btn");
     if (menu) menu.classList.remove("open");
@@ -204,14 +223,21 @@ if (log && form && input && serviceSelect && choices) {
       menuBtn.setAttribute("aria-expanded", "false");
       menuBtn.setAttribute("aria-label", "Open menu");
     }
-    if (!input.hidden && !input.disabled) input.focus();
-    else serviceSelect.focus();
+    if (!input.hidden && !input.disabled) input.focus({ preventScroll: true });
+    else serviceSelect.focus({ preventScroll: true });
   }
 
   function closeChat() {
     overlay.classList.remove("open");
     overlay.hidden = true;
     document.body.classList.remove("chat-open");
+    overlay.style.height = "";
+    overlay.style.top = "";
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", fitChat);
+    window.visualViewport.addEventListener("scroll", fitChat);
   }
 
   document.addEventListener("click", (event) => {
