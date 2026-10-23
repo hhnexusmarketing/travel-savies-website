@@ -71,8 +71,11 @@
   }, 400);
 
   window.setTimeout(function () {
-    if (finished) return;
-    if (video.paused || video.currentTime < 0.25) finish();
+    if (finished || video.error) {
+      if (!finished) finish();
+      return;
+    }
+    if (video.readyState >= 2 && (video.paused || video.currentTime < 0.25)) finish();
   }, 2500);
 
   window.setTimeout(function () {
