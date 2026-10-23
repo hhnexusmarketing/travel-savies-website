@@ -927,10 +927,9 @@ textarea:focus,
 
   .wa {
     position: fixed;
-    top: 88px;
-    top: calc(var(--header) + 12px + env(safe-area-inset-top, 0px));
+    top: auto;
     right: 14px;
-    bottom: auto;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
     margin: 0;
     z-index: 11;
   }
