@@ -896,7 +896,9 @@ textarea:focus,
   .footer-grid,
   .destinations,
   .tour-grid,
-  .tour-block {
+  .tour-block,
+  .reason-grid,
+  .ceo {
     grid-template-columns: 1fr;
   }
 
@@ -1215,6 +1217,116 @@ html.intro-on body {
   background: #02040c;
 }
 
+.reason-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.reason-grid article {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 22px 22px 8px;
+}
+
+.reason-grid h2 {
+  font-size: clamp(26px, 3vw, 32px);
+  margin-bottom: 8px;
+}
+
+.ceo {
+  display: grid;
+  grid-template-columns: minmax(240px, 360px) 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.ceo img {
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+}
+
+.ceo h2 {
+  font-size: clamp(32px, 4vw, 46px);
+}
+
+.mission {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-left: 2px solid var(--gold);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.explore {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.explore a {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 26px;
+}
+
+.explore a::after {
+  content: "→";
+  color: var(--gold);
+}
+
+.page-hero h1.title-wide {
+  max-width: 18ch;
+}
+
+.tour-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #02040c;
+}
+
+.tour-gate video {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100svh;
+  object-fit: contain;
+  background: #02040c;
+}
+
+.tour-gate-play {
+  position: absolute;
+  border: 0;
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 14px 28px;
+  cursor: pointer;
+}
+
+html.tour-gate-on,
+html.tour-gate-on body {
+  overflow: hidden;
+  background: #02040c;
+}
+
 .site-footer {
   padding-bottom: calc(28px + env(safe-area-inset-bottom));
 }
@@ -1251,5 +1363,22 @@ html.intro-on body {
 
   .phones a {
     font-size: 26px;
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 981px) {
+  .nav {
+    gap: 14px;
+  }
+
+  .nav a {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 980px) {
+  .reason-grid,
+  .ceo {
+    grid-template-columns: 1fr;
   }
 }
