@@ -1309,8 +1309,37 @@ html.intro-on body {
   background: #02040c;
 }
 
+.tour-gate-bg {
+  display: none;
+}
+
+.tour-gate-wide .tour-gate-bg {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  filter: blur(34px);
+  transform: scale(1.08);
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+.tour-gate-wide .tour-gate-main {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: auto;
+  max-height: 100svh;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
 .tour-gate-play {
   position: absolute;
+  z-index: 2;
   border: 0;
   background: var(--gold);
   color: var(--ink);

@@ -42,8 +42,27 @@ if (year) year.textContent = String(new Date().getFullYear());
     gate.className = "tour-gate";
     gate.setAttribute("role", "dialog");
     gate.setAttribute("aria-label", "Lahore city tour video");
+    var src = "images/lahore-tour.mp4?v=1";
+    var wide = window.matchMedia("(min-aspect-ratio: 3/4)").matches;
+    var bg = null;
+    if (wide) {
+      gate.classList.add("tour-gate-wide");
+      bg = document.createElement("video");
+      bg.className = "tour-gate-bg";
+      bg.src = src;
+      bg.muted = true;
+      bg.defaultMuted = true;
+      bg.autoplay = true;
+      bg.playsInline = true;
+      bg.setAttribute("playsinline", "");
+      bg.setAttribute("webkit-playsinline", "");
+      bg.setAttribute("aria-hidden", "true");
+      bg.preload = "auto";
+      gate.appendChild(bg);
+    }
     var video = document.createElement("video");
-    video.src = "images/lahore-tour.mp4?v=1";
+    video.className = "tour-gate-main";
+    video.src = src;
     video.controls = false;
     video.autoplay = true;
     video.playsInline = true;
@@ -72,6 +91,13 @@ if (year) year.textContent = String(new Date().getFullYear());
     video.addEventListener("ended", go);
     video.addEventListener("error", go);
 
+    if (bg) {
+      bg.play();
+      video.addEventListener("timeupdate", function () {
+        if (Math.abs(bg.currentTime - video.currentTime) > 0.35) bg.currentTime = video.currentTime;
+      });
+    }
+
     var started = video.play();
     if (started && started.catch) {
       started.catch(function () {
@@ -82,6 +108,7 @@ if (year) year.textContent = String(new Date().getFullYear());
         button.addEventListener("click", function () {
           button.remove();
           video.play();
+          if (bg) bg.play();
         });
         gate.appendChild(button);
       });
