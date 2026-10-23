@@ -215,7 +215,7 @@ if (log && form && input && serviceSelect && choices) {
   }
 
   document.addEventListener("click", (event) => {
-    const trigger = event.target.closest('a[href="contact.html"], [data-open-chat]');
+    const trigger = event.target.closest('a[href="contact.html"], a[href*="wa.me"], .wa, [data-open-chat]');
     if (trigger) {
       event.preventDefault();
       openChat();

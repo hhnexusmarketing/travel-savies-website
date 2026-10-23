@@ -924,7 +924,7 @@ textarea:focus,
 }
 
 .chat-overlay.open {
-  display: flex;
+  display: flex !important;
 }
 
 .chat-overlay .chat {
