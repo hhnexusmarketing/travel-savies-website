@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sitemap | Travel Savies</title>
+  <meta name="description" content="All pages on Travel Savies: Umrah, visit visa, Lahore city tours, transport, and contact.">
+  <link rel="canonical" href="https://travelsavies.com/sitemap.html">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="https://travelsavies.com/sitemap.xml">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0e2f6b">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Travel Savies">
+  <meta property="og:locale" content="en_PK">
+  <meta property="og:url" content="https://travelsavies.com/sitemap.html">
+  <meta property="og:title" content="Sitemap | Travel Savies">
+  <meta property="og:description" content="All pages on Travel Savies: Umrah, visit visa, Lahore city tours, transport, and contact.">
+  <meta property="og:image" content="https://travelsavies.com/images/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Sitemap | Travel Savies">
+  <meta name="twitter:description" content="All pages on Travel Savies.">
+  <meta name="twitter:image" content="https://travelsavies.com/images/logo.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Sitemap",
+    "url": "https://travelsavies.com/sitemap.html",
+    "isPartOf": { "@type": "WebSite", "name": "Travel Savies", "url": "https://travelsavies.com/" },
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "url": "https://travelsavies.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Umrah and Saudi Arabia", "url": "https://travelsavies.com/umrah.html" },
+        { "@type": "ListItem", "position": 3, "name": "Visit visa", "url": "https://travelsavies.com/visa.html" },
+        { "@type": "ListItem", "position": 4, "name": "City tours", "url": "https://travelsavies.com/tours.html" },
+        { "@type": "ListItem", "position": 5, "name": "Transport", "url": "https://travelsavies.com/transport.html" },
+        { "@type": "ListItem", "position": 6, "name": "Contact", "url": "https://travelsavies.com/contact.html" }
+      ]
+    }
+  }
+  </script>
+  <link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=9">
+</head>
+<body>
+  <script>
+    (function () {
+      var nav = performance.getEntriesByType("navigation")[0];
+      var type = nav ? nav.type : "navigate";
+      var seen = false;
+      try { seen = sessionStorage.getItem("ts-intro") === "1"; } catch (error) {}
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || (type !== "reload" && seen) || type === "back_forward") return;
+      try { sessionStorage.setItem("ts-intro", "1"); } catch (error) {}
+      document.documentElement.classList.add("intro-on");
+      var intro = document.createElement("div");
+      intro.id = "intro";
+      intro.setAttribute("role", "presentation");
+      intro.innerHTML = '<video width="1280" height="720" poster="images/intro-poster.jpg" autoplay muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="auto" aria-hidden="true"><source src="images/intro.mp4" type="video/mp4"></video>';
+      document.body.prepend(intro);
+      window.setTimeout(function () {
+        var node = document.getElementById("intro");
+        if (!node) return;
+        node.remove();
+        document.documentElement.classList.remove("intro-on");
+      }, 9000);
+    })();
+  </script>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <img class="mark" src="images/logo.png" alt="">
+        <div class="brand-name">Travel Savies<span>Your journey, our priority</span></div>
+      </a>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+      <nav class="nav" id="nav">
+        <a href="index.html">Home</a>
+        <a href="umrah.html">Umrah</a>
+        <a href="visa.html">Visit Visa</a>
+        <a href="tours.html">City Tours</a>
+        <a href="transport.html">Transport</a>
+        <a class="nav-cta" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="wrap page-hero">
+      <p class="eyebrow">Sitemap</p>
+      <h1>All pages.</h1>
+      <p class="lede">Every page on Travel Savies, in one list.</p>
+      <ul class="sitemap-list">
+        <li><a href="index.html"><strong>Home</strong><span>Umrah, visit visa, city tours, and transport.</span></a></li>
+        <li><a href="umrah.html"><strong>Umrah and Saudi Arabia</strong><span>Umrah packages and Saudi travel.</span></a></li>
+        <li><a href="visa.html"><strong>Visit visa</strong><span>Help with visit visa applications.</span></a></li>
+        <li><a href="tours.html"><strong>City tours</strong><span>Lahore city tours with a driver.</span></a></li>
+        <li><a href="transport.html"><strong>Transport</strong><span>Cars with a driver in Lahore.</span></a></li>
+        <li><a href="contact.html"><strong>Contact</strong><span>Plaza No 80, Block Broadway, Paragon.</span></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <strong>Travel Savies</strong>
+        <p>Your journey. Our expertise. Your world to explore.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="umrah.html">Umrah</a>
+        <a href="visa.html">Visit visa</a>
+        <a href="tours.html">City tours</a>
+        <a href="transport.html">Transport</a>
+        <a href="contact.html">Contact</a>
+        <a href="sitemap.html">Sitemap</a>
+      </div>
+      <div>
+        <a href="tel:+923248477095">0324 8477095</a><br>
+        <a href="tel:+923274140162">0327 4140162</a>
+        <p>Plaza No 80, Block Broadway, Paragon</p>
+      </div>
+    </div>
+    <div class="wrap legal">© <span data-year>2026</span> Travel Savies.</div>
+  </footer>
+  <a class="wa" href="contact.html" target="_blank" rel="noopener" aria-label="WhatsApp Travel Savies"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10 10 0 0 0 4.65 1.18h.01c5.46 0 9.89-4.4 9.89-9.83C21.94 6.4 17.5 2 12.04 2zm5.76 14.15c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.81-.11-.42-.14-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.16-1.54-1.16-2.94s.73-2.08 1-2.37c.24-.27.64-.4 1.02-.4.12 0 .23 0 .33.01.3.01.44.03.64.49.24.57.82 1.98.89 2.12.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.54.16.27.71 1.16 1.52 1.88 1.05.93 1.93 1.22 2.2 1.36.28.14.44.12.6-.07.16-.19.69-.8.88-1.08.19-.27.37-.22.62-.13.26.09 1.63.77 1.91.91.28.14.46.21.53.32.07.12.07.68-.17 1.36z"/></svg></a>
+  <script src="js/intro.js?v=5"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chat.js?v=5"></script>
+</body>
+</html>
