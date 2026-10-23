@@ -44,6 +44,7 @@ img,
 svg {
   display: block;
   max-width: 100%;
+  height: auto;
 }
 
 a {
@@ -765,9 +766,10 @@ textarea:focus,
 
 .tour-card img {
   width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  object-position: center top;
+  height: auto;
+  object-fit: contain;
+  object-position: center center;
+  flex-shrink: 0;
 }
 
 .tour-card div {
