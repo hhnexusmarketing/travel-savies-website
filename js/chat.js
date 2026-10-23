@@ -106,7 +106,7 @@ if (log && form && input && serviceSelect && choices) {
 
   function whatsappText() {
     return [
-      "Assalam o Alaikum, Travel Savies.",
+      "Assalam o Alaikum. This is Travel Savies.",
       `My name is ${details.name}.`,
       `Phone: ${details.phone}.`,
       `Service: ${details.service}.`,
@@ -144,7 +144,7 @@ if (log && form && input && serviceSelect && choices) {
     if (step === "service") {
       details.service = text;
       add(text, "user");
-      ask("Tell us the details: destination, dates, travellers, or pickup.", "message", "Destination, dates, or pickup");
+      ask("Tell us the details: destination, dates, travellers, or pick-up.", "message", "Destination, dates, or pick-up");
       return;
     }
 
@@ -165,7 +165,7 @@ if (log && form && input && serviceSelect && choices) {
   }
 
   function sendWhatsApp() {
-    const url = `https://wa.me/923154057253?text=${encodeURIComponent(whatsappText())}`;
+    const url = `https://wa.me/923238477095?text=${encodeURIComponent(whatsappText())}`;
     window.open(url, "_blank", "noopener");
   }
 
@@ -191,7 +191,7 @@ if (log && form && input && serviceSelect && choices) {
     if (button.textContent === "Start again") window.location.reload();
   });
 
-  ask("Assalam o Alaikum. I am Travel Savies. What is your name?", "name", "Your name");
+  ask("Assalam o Alaikum. This is Travel Savies. What is your name?", "name", "Your name");
 
   function openChat() {
     overlay.hidden = false;
