@@ -1126,7 +1126,6 @@ body.chat-open {
   object-fit: contain;
   object-position: center center;
   background: #02040c;
-  pointer-events: none;
 }
 
 #intro.intro-out {

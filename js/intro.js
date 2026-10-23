@@ -11,10 +11,11 @@
     try {
       sessionStorage.setItem("ts-intro", "1");
     } catch (error) {}
-    intro.classList.add("intro-out");
     document.documentElement.classList.remove("intro-on");
+    if (!intro.parentNode) return;
+    intro.classList.add("intro-out");
     window.setTimeout(function () {
-      intro.remove();
+      if (intro.parentNode) intro.remove();
     }, 480);
   }
 
@@ -45,6 +46,10 @@
     });
   }
 
+  intro.addEventListener("pointerdown", function () {
+    finish();
+  });
+
   document.addEventListener("visibilitychange", function () {
     if (!document.hidden) start();
   });
@@ -54,14 +59,19 @@
       window.clearInterval(wait);
       return;
     }
-    if (!video.paused) return;
+    if (!video.paused && video.currentTime > 0.2) return;
     if (video.readyState >= 2) start();
   }, 400);
 
   window.setTimeout(function () {
+    if (finished) return;
+    if (video.paused || video.currentTime < 0.25) finish();
+  }, 2500);
+
+  window.setTimeout(function () {
     window.clearInterval(wait);
-    if (!finished && video.paused && video.readyState < 2) finish();
-  }, 12000);
+    if (!finished) finish();
+  }, 9000);
 
   start();
 })();
