@@ -65,10 +65,82 @@
   }
 
   function horizon(a, b) {
-    var t = a.z / (a.z - b.z);
+    var denom = a.z - b.z;
+    var t = Math.abs(denom) < 1e-6 ? 0 : a.z / denom;
+    if (t < 0) t = 0;
+    if (t > 1) t = 1;
     var x = a.x + (b.x - a.x) * t;
     var y = a.y + (b.y - a.y) * t;
-    return { sx: width / 2 + x * radius, sy: height / 2 - y * radius };
+    var len = Math.sqrt(x * x + y * y) || 1;
+    x /= len;
+    y /= len;
+    return {
+      x: x,
+      y: y,
+      z: 0,
+      sx: width / 2 + x * radius,
+      sy: height / 2 - y * radius,
+      ang: Math.atan2(y, x)
+    };
+  }
+
+  function inverseHorizon(angle, lon0) {
+    var x = Math.cos(angle);
+    var y = Math.sin(angle);
+    var phi0 = 24 * rad;
+    var phi = Math.asin(Math.max(-1, Math.min(1, y * Math.cos(phi0))));
+    var lam = Math.atan2(x, -y * Math.sin(phi0));
+    return [lon0 + lam / rad, phi / rad];
+  }
+
+  function unwrapLon(lon, origin) {
+    var x = lon;
+    while (x - origin > 180) x -= 360;
+    while (x - origin < -180) x += 360;
+    return x;
+  }
+
+  function insideRing(lon, lat, ring) {
+    var inside = false;
+    var j = ring.length - 1;
+    var i;
+    for (i = 0; i < ring.length; i += 1) {
+      var yi = ring[i][1];
+      var yj = ring[j][1];
+      var xi = unwrapLon(ring[i][0], lon);
+      var xj = unwrapLon(ring[j][0], lon);
+      if ((yi > lat) !== (yj > lat)) {
+        var cross = ((xj - xi) * (lat - yi)) / (yj - yi) + xi;
+        if (lon < cross) inside = !inside;
+      }
+      j = i;
+    }
+    return inside;
+  }
+
+  function strokeArc(fromAng, toAng, shortSide) {
+    var delta = toAng - fromAng;
+    while (delta <= -Math.PI) delta += Math.PI * 2;
+    while (delta > Math.PI) delta -= Math.PI * 2;
+    if (!shortSide) delta += delta > 0 ? -Math.PI * 2 : Math.PI * 2;
+    var steps = Math.max(2, Math.ceil(Math.abs(delta) / (Math.PI / 28)));
+    var k;
+    for (k = 1; k <= steps; k += 1) {
+      var a = fromAng + (delta * k) / steps;
+      ctx.lineTo(width / 2 + Math.cos(a) * radius, height / 2 - Math.sin(a) * radius);
+    }
+  }
+
+  function shortArcInside(exitAng, enterAng, ring, lon0) {
+    var delta = enterAng - exitAng;
+    while (delta <= -Math.PI) delta += Math.PI * 2;
+    while (delta > Math.PI) delta -= Math.PI * 2;
+    var mid = exitAng + delta / 2;
+    var near = inverseHorizon(mid, lon0);
+    if (insideRing(near[0], near[1], ring)) return true;
+    var far = inverseHorizon(mid + Math.PI, lon0);
+    if (insideRing(far[0], far[1], ring)) return false;
+    return true;
   }
 
   function distance(lon, lat, lon0) {
@@ -137,42 +209,80 @@
   }
 
   function drawLand(land, lon0) {
-    var n = land.length;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(width / 2, height / 2, radius + 0.5, 0, Math.PI * 2);
+    ctx.clip();
+
     var r;
-    for (r = 0; r < n; r += 1) {
+    for (r = 0; r < land.length; r += 1) {
       var ring = land[r];
-      var started = false;
-      var prev = null;
-      var p;
-      ctx.beginPath();
-      for (p = 0; p < ring.length; p += 1) {
-        var cur = project(ring[p][0], ring[p][1], lon0);
-        if (prev) {
-          var jump = Math.abs(ring[p][0] - ring[p - 1][0]) > 180;
-          if (!jump && prev.z > 0 && cur.z > 0) {
-            if (!started) {
-              ctx.moveTo(prev.sx, prev.sy);
-              started = true;
-            }
-            ctx.lineTo(cur.sx, cur.sy);
-          } else if (!jump && prev.z > 0 && cur.z <= 0) {
-            var edge = horizon(prev, cur);
-            if (!started) ctx.moveTo(prev.sx, prev.sy);
-            ctx.lineTo(edge.sx, edge.sy);
-            started = false;
-          } else if (!jump && prev.z <= 0 && cur.z > 0) {
-            var edgeIn = horizon(prev, cur);
-            ctx.moveTo(edgeIn.sx, edgeIn.sy);
-            ctx.lineTo(cur.sx, cur.sy);
-            started = true;
-          } else {
-            started = false;
+      var count = ring.length;
+      if (count < 3) continue;
+      var parts = [];
+      var part = [];
+      var startAng = null;
+      var seam = false;
+      var flush = function (endAng) {
+        if (part.length > 1) parts.push({ pts: part, startAng: startAng, endAng: endAng });
+        part = [];
+        startAng = null;
+      };
+      var prevLL = ring[count - 1];
+      var prev = project(prevLL[0], prevLL[1], lon0);
+      var i;
+      for (i = 0; i < count; i += 1) {
+        var curLL = ring[i];
+        var cur = project(curLL[0], curLL[1], lon0);
+        var jump = Math.abs(curLL[0] - prevLL[0]) > 180;
+        if (jump) {
+          if (part.length) {
+            flush(null);
+            seam = true;
           }
+        } else if (prev.z > 0 && cur.z > 0) {
+          if (!part.length) part.push(prev);
+          part.push(cur);
+        } else if (prev.z > 0 && cur.z <= 0) {
+          var leaving = horizon(prev, cur);
+          if (!part.length) part.push(prev);
+          part.push(leaving);
+          flush(leaving.ang);
+        } else if (prev.z <= 0 && cur.z > 0) {
+          var entering = horizon(prev, cur);
+          startAng = entering.ang;
+          part = [entering, cur];
         }
         prev = cur;
+        prevLL = curLL;
       }
-      ctx.fill();
+      if (part.length) flush(null);
+
+      if (!seam && parts.length > 1 && parts[0].startAng === null && parts[parts.length - 1].endAng === null) {
+        var tail = parts.pop();
+        var head = parts.shift();
+        tail.pts.pop();
+        tail.pts = tail.pts.concat(head.pts);
+        tail.endAng = head.endAng;
+        parts.unshift(tail);
+      }
+
+      var g;
+      for (g = 0; g < parts.length; g += 1) {
+        var piece = parts[g];
+        ctx.beginPath();
+        ctx.moveTo(piece.pts[0].sx, piece.pts[0].sy);
+        var q;
+        for (q = 1; q < piece.pts.length; q += 1) {
+          ctx.lineTo(piece.pts[q].sx, piece.pts[q].sy);
+        }
+        if (piece.startAng !== null && piece.endAng !== null) {
+          strokeArc(piece.endAng, piece.startAng, shortArcInside(piece.endAng, piece.startAng, ring, lon0));
+        }
+        ctx.fill();
+      }
     }
+    ctx.restore();
   }
 
   function draw(land, time) {
