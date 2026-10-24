@@ -53,7 +53,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap"></noscript>
-  <link rel="stylesheet" href="css/styles.css?v=16">
+  <link rel="stylesheet" href="css/styles.css?v=19">
 </head>
 <body>
   <script>
@@ -104,6 +104,15 @@
       <p class="eyebrow">Your sacred journey deserves exceptional comfort</p>
       <h1>Plan your Umrah with Travel Savies.</h1>
       <p class="lede">Make your journey to the Holy Cities more comfortable with thoughtfully arranged Umrah and Saudi Arabia travel services. From visa application assistance to premium accommodation and private transportation, we help you plan your journey with care.</p>
+    </section>
+
+    <section class="section" style="padding-top: 8px;">
+      <div class="wrap umrah-stage">
+        <div class="umrah-film">
+          <video id="umrah-film" width="400" height="712" poster="images/umrah-poster.jpg?v=1" autoplay playsinline webkit-playsinline preload="auto" disablepictureinpicture><source src="images/umrah.mp4?v=1" type="video/mp4"></video>
+          <button class="umrah-play" id="umrah-play" type="button" hidden>Play with sound</button>
+        </div>
+      </div>
     </section>
 
     <section class="section" style="padding-top: 28px;">
@@ -218,5 +227,28 @@
   <script src="js/intro.js?v=7" defer></script>
   <script src="js/main.js?v=5" defer></script>
   <script src="js/chat.js?v=6" defer></script>
+  <script>
+    (function () {
+      var video = document.getElementById("umrah-film");
+      var button = document.getElementById("umrah-play");
+      if (!video || !button) return;
+      video.playsInline = true;
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      function start() {
+        video.muted = false;
+        var pending = video.play();
+        if (!pending || !pending.then) return;
+        pending.then(function () { button.hidden = true; }).catch(function () { button.hidden = false; });
+      }
+      button.addEventListener("click", start);
+      if (!reduce) start();
+      else button.hidden = false;
+      if (window.IntersectionObserver) {
+        new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting && !video.paused) video.pause();
+        }).observe(video);
+      }
+    })();
+  </script>
 </body>
 </html>
