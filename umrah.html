@@ -53,7 +53,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap"></noscript>
-  <link rel="stylesheet" href="css/styles.css?v=19">
+  <link rel="stylesheet" href="css/styles.css?v=20">
 </head>
 <body>
   <script>
@@ -109,8 +109,7 @@
     <section class="section" style="padding-top: 8px;">
       <div class="wrap umrah-stage">
         <div class="umrah-film">
-          <video id="umrah-film" width="400" height="712" poster="images/umrah-poster.jpg?v=1" autoplay playsinline webkit-playsinline preload="auto" disablepictureinpicture><source src="images/umrah.mp4?v=1" type="video/mp4"></video>
-          <button class="umrah-play" id="umrah-play" type="button" hidden>Play with sound</button>
+          <video id="umrah-film" width="400" height="712" poster="images/umrah-poster.jpg?v=1" autoplay muted playsinline webkit-playsinline preload="auto" disablepictureinpicture><source src="images/umrah.mp4?v=1" type="video/mp4"></video>
         </div>
       </div>
     </section>
@@ -230,23 +229,67 @@
   <script>
     (function () {
       var video = document.getElementById("umrah-film");
-      var button = document.getElementById("umrah-play");
-      if (!video || !button) return;
+      if (!video) return;
+      var film = video.parentNode;
       video.playsInline = true;
-      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      function start() {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute("muted", "");
+      video.autoplay = true;
+
+      var bg = null;
+      if (window.matchMedia("(min-width: 1000px)").matches) {
+        film.classList.add("umrah-film-wide");
+        video.classList.add("umrah-film-main");
+        bg = document.createElement("video");
+        bg.className = "umrah-film-bg";
+        bg.muted = true;
+        bg.defaultMuted = true;
+        bg.setAttribute("muted", "");
+        bg.playsInline = true;
+        bg.setAttribute("playsinline", "");
+        bg.autoplay = true;
+        bg.preload = "auto";
+        bg.src = "images/umrah.mp4?v=1";
+        film.insertBefore(bg, video);
+      }
+
+      function playAll() {
+        var main = video.play();
+        if (main && main.catch) main.catch(function () {});
+        if (bg) {
+          var side = bg.play();
+          if (side && side.catch) side.catch(function () {});
+        }
+      }
+
+      function soundOn() {
         video.muted = false;
+        video.volume = 1;
         var pending = video.play();
         if (!pending || !pending.then) return;
-        pending.then(function () { button.hidden = true; }).catch(function () { button.hidden = false; });
+        pending.catch(function () {
+          video.muted = true;
+          video.play();
+        });
       }
-      button.addEventListener("click", start);
-      if (!reduce) start();
-      else button.hidden = false;
+
+      playAll();
+      video.addEventListener("playing", function onPlaying() {
+        video.removeEventListener("playing", onPlaying);
+        soundOn();
+      });
+      document.addEventListener("pointerdown", soundOn, { capture: true, once: true });
+      document.addEventListener("keydown", soundOn, { once: true });
+
       if (window.IntersectionObserver) {
         new IntersectionObserver(function (entries) {
-          if (!entries[0].isIntersecting && !video.paused) video.pause();
-        }).observe(video);
+          if (entries[0].isIntersecting) playAll();
+          else {
+            video.pause();
+            if (bg) bg.pause();
+          }
+        }).observe(film);
       }
     })();
   </script>
