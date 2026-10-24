@@ -53,7 +53,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap"></noscript>
-  <link rel="stylesheet" href="css/styles.css?v=20">
+  <link rel="stylesheet" href="css/styles.css?v=21">
 </head>
 <body>
   <script>
@@ -108,8 +108,14 @@
 
     <section class="section" style="padding-top: 8px;">
       <div class="wrap umrah-stage">
-        <div class="umrah-film">
-          <video id="umrah-film" width="400" height="712" poster="images/umrah-poster.jpg?v=1" autoplay muted playsinline webkit-playsinline preload="auto" disablepictureinpicture><source src="images/umrah.mp4?v=1" type="video/mp4"></video>
+        <div class="umrah-block" id="umrah-block">
+          <div class="umrah-film">
+            <video id="umrah-film" width="400" height="712" poster="images/umrah-poster.jpg?v=1" autoplay muted playsinline webkit-playsinline preload="auto" disablepictureinpicture><source src="images/umrah.mp4?v=1" type="video/mp4"></video>
+          </div>
+          <div class="umrah-controls">
+            <button type="button" id="umrah-replay">Play again</button>
+            <button type="button" id="umrah-sound" aria-pressed="false">Sound off</button>
+          </div>
         </div>
       </div>
     </section>
@@ -229,16 +235,22 @@
   <script>
     (function () {
       var video = document.getElementById("umrah-film");
-      if (!video) return;
+      var replay = document.getElementById("umrah-replay");
+      var sound = document.getElementById("umrah-sound");
+      if (!video || !replay || !sound) return;
       var film = video.parentNode;
+      var block = document.getElementById("umrah-block");
+      var level = 0.6;
       video.playsInline = true;
       video.muted = true;
       video.defaultMuted = true;
       video.setAttribute("muted", "");
       video.autoplay = true;
+      video.volume = level;
 
       var bg = null;
       if (window.matchMedia("(min-width: 1000px)").matches) {
+        block.classList.add("umrah-block-wide");
         film.classList.add("umrah-film-wide");
         video.classList.add("umrah-film-main");
         bg = document.createElement("video");
@@ -254,38 +266,64 @@
         film.insertBefore(bg, video);
       }
 
+      function paintSound() {
+        var on = !video.muted;
+        sound.textContent = on ? "Sound on" : "Sound off";
+        sound.setAttribute("aria-pressed", on ? "true" : "false");
+        sound.classList.toggle("is-on", on);
+      }
+
       function playAll() {
         var main = video.play();
         if (main && main.catch) main.catch(function () {});
         if (bg) {
+          bg.currentTime = video.currentTime || 0;
           var side = bg.play();
           if (side && side.catch) side.catch(function () {});
         }
       }
 
-      function soundOn() {
+      function withSound() {
         video.muted = false;
-        video.volume = 1;
+        video.volume = level;
         var pending = video.play();
-        if (!pending || !pending.then) return;
-        pending.catch(function () {
+        if (!pending || !pending.then) {
+          paintSound();
+          return;
+        }
+        pending.then(paintSound).catch(function () {
           video.muted = true;
           video.play();
+          paintSound();
         });
       }
+
+      replay.addEventListener("click", function () {
+        video.currentTime = 0;
+        if (bg) bg.currentTime = 0;
+        playAll();
+      });
+
+      sound.addEventListener("click", function () {
+        if (video.muted) withSound();
+        else {
+          video.muted = true;
+          paintSound();
+        }
+      });
 
       playAll();
       video.addEventListener("playing", function onPlaying() {
         video.removeEventListener("playing", onPlaying);
-        soundOn();
+        withSound();
       });
-      document.addEventListener("pointerdown", soundOn, { capture: true, once: true });
-      document.addEventListener("keydown", soundOn, { once: true });
 
       if (window.IntersectionObserver) {
         new IntersectionObserver(function (entries) {
-          if (entries[0].isIntersecting) playAll();
-          else {
+          if (entries[0].isIntersecting) {
+            if (video.ended) return;
+            playAll();
+          } else {
             video.pause();
             if (bg) bg.pause();
           }

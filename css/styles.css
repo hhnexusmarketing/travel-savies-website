@@ -1316,9 +1316,13 @@ html.intro-on body {
   justify-content: center;
 }
 
+.umrah-block {
+  width: min(420px, 100%);
+}
+
 .umrah-film {
   position: relative;
-  width: min(400px, 100%);
+  width: 100%;
   border-radius: 24px;
   overflow: hidden;
   background: #02040c;
@@ -1329,17 +1333,17 @@ html.intro-on body {
   width: 100%;
   height: auto;
   max-width: none;
-  max-height: calc(100svh - 132px);
+  max-height: none;
   object-fit: contain;
   background: #02040c;
 }
 
 .umrah-film-wide {
+  width: 100%;
+}
+
+.umrah-block-wide {
   width: min(1120px, 100%);
-  height: min(640px, calc(100svh - 132px));
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .umrah-film-wide .umrah-film-bg {
@@ -1357,9 +1361,34 @@ html.intro-on body {
 .umrah-film-wide .umrah-film-main {
   position: relative;
   z-index: 1;
-  width: auto;
-  height: 100%;
-  max-height: 100%;
+  width: min(420px, 46%);
+  height: auto;
+  max-height: none;
+  margin: 0 auto;
+}
+
+.umrah-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.umrah-controls button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: var(--ink);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.umrah-controls button.is-on {
+  background: var(--gold);
+  color: var(--ink);
 }
 
 .page-hero h1.title-wide {
